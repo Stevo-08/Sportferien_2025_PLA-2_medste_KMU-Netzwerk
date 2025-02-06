@@ -78,3 +78,25 @@
 ### 3. Vom Client aus verbinden
 - **"Win + R"** drücken und **"mstsc"** eingeben.
 - Die **Server-IP** eintippen und auf **"Verbinden"** klicken.
+
+---
+
+## Monitoring-Tool
+Ich habe **Wireshark** als Monitoring-Tool installiert, um den Netzwerkverkehr zu analysieren und den Datenaustausch zu überwachen.
+
+## Internes Webportal zur Netzwerküberwachung und Log-Anzeige
+
+### 1. Einrichtung des Webservers
+- Installation und Konfiguration von **IIS**.
+
+### 2. Erstellung der Weboberfläche
+- Entwicklung einer einfachen **HTML-Seite** als Benutzeroberfläche.
+
+### 3. Integration von Netzwerküberwachungstools
+- Einbindung relevanter **Monitoring-Tools** zur Anzeige des Netzwerkstatus.
+
+### 4. Log-Management
+- Abruf und Darstellung von **Server-Logs** im Webportal.
+
+### 5. Zugriffskontrolle
+- Konfiguration der **Berechtigungen**, um den Zugriff intern zu beschränken.
