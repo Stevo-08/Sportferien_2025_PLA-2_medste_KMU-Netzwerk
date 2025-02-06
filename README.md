@@ -1,8 +1,8 @@
 # KMU Netzwerk 
 
-IP-Adressierungskonzept
+### IP-Adressierungskonzept
  Netzwerkübersicht:
-•	Netzwerk: 192.168.10.0/24
+- **Netzwerk** : 192.168.10.0/24
 •	Subnetzmaske: 255.255.255.0
 •	Gateway (Router): 192.168.10.1
 VLAN 10 – Admin (Subnetz: 192.168.10.0/26)
