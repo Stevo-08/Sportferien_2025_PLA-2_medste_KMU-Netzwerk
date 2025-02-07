@@ -104,3 +104,36 @@
 
 #### Zugriffskontrolle
 - **Berechtigungen** konfigurieren, um den internen Zugriff zu beschränken.
+
+# Windows Server 2022 – AD Servernamen ändern
+
+## 1. Aktuellen Servernamen prüfen
+In PowerShell:
+```powershell
+hostname
+```
+
+## 2. Falls DC → Degradieren & Neustart
+- Server-Manager → Rollen und Features entfernen → AD DS deinstallieren
+- Falls Mitgliedsserver: `sysdm.cpl` → Arbeitsgruppe setzen → Neustart
+
+## 3. Servernamen ändern
+### GUI:
+- `sysdm.cpl` → Computername → Ändern → Neustart
+
+### PowerShell:
+```powershell
+Rename-Computer -NewName "NeuerServerName" -Restart
+```
+
+## 4. Server wieder in Domäne aufnehmen
+- `sysdm.cpl` → Domäne beitreten → Neustart
+
+## 5. DNS & AD prüfen
+In PowerShell:
+```powershell
+hostname
+nslookup NeuerServerName
+repadmin /showrepl
+dcdiag /v
+
