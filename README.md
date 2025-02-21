@@ -2,42 +2,42 @@
 
 ## IP-Adressierungskonzept
 
-### Netzwerkübersicht:
-- **Netzwerk**: `192.168.10.0/24`
-- **Subnetzmaske**: `255.255.255.0`
-- **Gateway (Router)**: `192.168.10.1`
+### Netzwerkübersicht
+- **Netzwerk:** `192.168.10.0/24`
+- **Subnetzmaske:** `255.255.255.0`
+- **Gateway (Router):** `192.168.10.1`
 
 ### VLANs
 
 #### VLAN 10 – Admin (`192.168.10.0/26`)
-- **IP-Bereich**: `192.168.10.1 – 192.168.10.62`
-- **Gateway**: `192.168.10.1`
-- **Geräte**:
-  - **Router**: `192.168.10.1`
-  - **Server (DNS/DHCP)**: `192.168.10.2`
-  - **Admin-PC 1**: `192.168.10.3`
+- **IP-Bereich:** `192.168.10.1 – 192.168.10.62`
+- **Gateway:** `192.168.10.1`
+- **Geräte:**
+  - **Router:** `192.168.10.1`
+  - **Server (DNS/DHCP):** `192.168.10.2`
+  - **Admin-PC 1:** `192.168.10.3`
 
 #### VLAN 20 – Mitarbeiter (`192.168.10.64/26`)
-- **IP-Bereich**: `192.168.10.65 – 192.168.10.126`
-- **Gateway**: `192.168.10.65`
-- **Geräte (via DHCP)**:
-  - **Client 1**: `192.168.10.66` (dynamisch)
-  - **Client 2**: `192.168.10.67` (dynamisch)
+- **IP-Bereich:** `192.168.10.65 – 192.168.10.126`
+- **Gateway:** `192.168.10.65`
+- **Geräte (via DHCP):**
+  - **Client 1:** `192.168.10.66` (dynamisch)
+  - **Client 2:** `192.168.10.67` (dynamisch)
 
 #### VLAN 30 – Gäste (`192.168.10.128/26`)
-- **IP-Bereich**: `192.168.10.129 – 192.168.10.190`
-- **Gateway**: `192.168.10.129`
-- **Geräte (via DHCP)**:
-  - **Gastgerät 1**: `192.168.10.130` (dynamisch)
-  - **Gastgerät 2**: `192.168.10.131` (dynamisch)
+- **IP-Bereich:** `192.168.10.129 – 192.168.10.190`
+- **Gateway:** `192.168.10.129`
+- **Geräte (via DHCP):**
+  - **Gastgerät 1:** `192.168.10.130` (dynamisch)
+  - **Gastgerät 2:** `192.168.10.131` (dynamisch)
 
 #### Management-Netzwerk (`192.168.10.192/28`)
-- **IP-Bereich**: `192.168.10.193 – 192.168.10.206`
-- **Geräte**:
-  - **Switch**: `192.168.10.194`
-  - **Router-Management-Interface**: `192.168.10.195`
+- **IP-Bereich:** `192.168.10.193 – 192.168.10.206`
+- **Geräte:**
+  - **Switch:** `192.168.10.194`
+  - **Router-Management-Interface:** `192.168.10.195`
 
-#### Reservierte Adressen:
+#### Reservierte Adressen
 - `192.168.10.250–254` für zukünftige Geräte
 - `192.168.10.255` = Broadcast-Adresse
 
@@ -50,15 +50,15 @@
 4. **Switch → Server, Access Point, Clients**
 
 ## Namenskonzept
-- **Server**: `med-ZRH-SRV-01`
-- **Switch**: `med-ZRH-SW-01`
-- **Access Point**: `med-ZRH-AP-01`
-- **PCs/Clients**: `med-ZRH-CL-01`
-- **Drucker**: `med-ZRH-PR-01`
+- **Server:** `med-ZRH-SRV-01`
+- **Switch:** `med-ZRH-SW-01`
+- **Access Point:** `med-ZRH-AP-01`
+- **PCs/Clients:** `med-ZRH-CL-01`
+- **Drucker:** `med-ZRH-PR-01`
 
 ## Zugriff auf Router
-- **Web-Oberfläche**: `192.168.1.1`
-- **Standard-Passwort**: `password` (ändern empfohlen!)
+- **Web-Oberfläche:** `192.168.1.1`
+- **Standard-Passwort:** `password` (ändern empfohlen!)
 
 ## VLANs erstellen
 1. Menü **„VLAN“** oder **„LAN-Einstellungen“** öffnen
@@ -105,84 +105,34 @@
 #### Zugriffskontrolle
 - **Berechtigungen** konfigurieren, um den internen Zugriff zu beschränken.
 
-# Windows Server 2022 – AD Servernamen ändern
+---
 
-## 1. Aktuellen Servernamen prüfen
-In PowerShell:
+## Windows Server 2022 – AD Servernamen ändern
+
+### 1. Aktuellen Servernamen prüfen
 ```powershell
 hostname
 ```
 
-## 2. Falls DC → Degradieren & Neustart
+### 2. Falls DC → Degradieren & Neustart
 - Server-Manager → Rollen und Features entfernen → AD DS deinstallieren
 - Falls Mitgliedsserver: `sysdm.cpl` → Arbeitsgruppe setzen → Neustart
 
-## 3. Servernamen ändern
-### GUI:
+### 3. Servernamen ändern
+#### GUI:
 - `sysdm.cpl` → Computername → Ändern → Neustart
 
-### PowerShell:
+#### PowerShell:
 ```powershell
 Rename-Computer -NewName "NeuerServerName" -Restart
 ```
 
-## 4. Server wieder in Domäne aufnehmen
+### 4. Server wieder in Domäne aufnehmen
 - `sysdm.cpl` → Domäne beitreten → Neustart
 
-## 5. DNS & AD prüfen
-In PowerShell:
+### 5. DNS & AD prüfen
 ```powershell
 hostname
 nslookup NeuerServerName
 repadmin /showrepl
 dcdiag /v
-
-# Backup-Strategie
-
-## 1. Backup-Ziele festlegen
-- Schutz vor Datenverlust durch Hardware-Ausfälle, Ransomware oder menschliche Fehler
-- Schnelle Wiederherstellung mit minimalem Datenverlust
-- Einhaltung von Compliance-Vorgaben (z. B. DSGVO)
-
-## 2. Backup-Arten & Methoden
-- **Vollbackup** – komplette Sicherung aller Daten
-- **Differenzielles Backup** – speichert nur geänderte Daten seit dem letzten Vollbackup
-- **Inkrementelles Backup** – speichert nur Änderungen seit der letzten Sicherung
-
-### Empfohlene Kombination
-- Wöchentlich ein Vollbackup
-- Täglich ein inkrementelles Backup
-- Stündliche Replikation wichtiger Daten (optional)
-
-## 3. Backup-Speicherorte
-- **Lokal:** Externe Festplatten, NAS, RAID-Systeme
-- **Extern:** Cloud-Speicher (OneDrive, Azure Backup, Drittanbieter)
-- **Air-Gapped:** Physisch getrennte Backup-Medien zur Ransomware-Prävention
-
-## 4. Automatisierung mit Windows-Bordmitteln
-
-### Windows Server Backup (WSB)
-#### Installation:
-```powershell
-Install-WindowsFeature -Name Windows-Server-Backup -IncludeManagementTools
-```
-
-#### Backup einrichten:
-1. **Server-Manager** → **Tools** → **Windows Server-Sicherung**
-2. Sicherungszeitplan erstellen
-3. Zielort (Netzwerk oder externes Laufwerk) auswählen
-
-### Robocopy (Manuelle Datei-Sicherung)
-```powershell
-Robocopy C:\WichtigeDaten D:\Backup /MIR /R:3 /W:5 /LOG:D:\backup.log
-```
-
-### PowerShell Backup-Skript
-Automatisiertes Backup mit PowerShell:
-```powershell
-$BackupPath = "D:\Backups"
-$SourcePath = "C:\WichtigeDaten"
-$TimeStamp = Get-Date -Format "yyyy-MM-dd_HH-mm"
-$Dest = "$BackupPath\Backup_$TimeStamp"
-New-Item -ItemType Directory -Path $Dest
-Robocopy $SourcePath $Dest /MIR
