@@ -188,3 +188,28 @@ New-Item -ItemType Directory -Path $Dest
 Robocopy $SourcePath $Dest /MIR
 ```
 
+Installation von IIS
+1.	Server-Manager öffnen
+2.	Klicke auf "Verwalten" → "Rollen und Features hinzufügen"
+3.	Wähle "Rollenbasierte oder featurebasierte Installation"
+4.	Wähle deinen Server aus
+5.	"Webserver (IIS)" unter den Serverrollen aktivieren
+6.	Standardmäßig werden die wichtigsten Komponenten installiert. Falls du z. B. ASP.NET oder FTP benötigst, kannst du diese unter "Rollendienste" hinzufügen.
+7.	Klicke auf "Weiter" → "Installieren", um die Installation abzuschließen.
+
+2. IIS starten und testen
+1.	Öffne den IIS-Manager mit Win + R, dann inetmgr eingeben und Enter drücken.
+2.	Navigiere zu "Sites" → "Default Web Site" und starte sie, falls sie nicht läuft.
+3.	Teste IIS, indem du http://localhost in den Browser eingibst. Die Standard-IIS-Startseite sollte erscheinen.
+
+3. Eigene Website hosten
+1.	Erstelle einen neuen Ordner, z. B. C:\inetpub\meineWebsite
+2.	Lege dort eine index.html Datei ab.
+3.	Gehe im IIS-Manager auf "Sites" → "Website hinzufügen"
+o	Website-Name: z. B. MeineWebsite
+o	Physischer Pfad: C:\inetpub\meineWebsite
+o	Port: 80 (oder einen anderen freien Port)
+o	Hostnamen: optional, wenn die Seite über eine Domain erreichbar sein soll
+4.	Klicke auf "OK" und starte die Website
+Jetzt kannst du deine Website über http://localhost oder die IP-Adresse des Servers im Netzwerk aufrufen.
+Falls die Seite nicht erreichbar ist, überprüfe die Windows-Firewall und erlaube eingehende Verbindungen für Port 80.
