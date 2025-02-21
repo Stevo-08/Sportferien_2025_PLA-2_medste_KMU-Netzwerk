@@ -137,3 +137,52 @@ nslookup NeuerServerName
 repadmin /showrepl
 dcdiag /v
 
+# Backup-Strategie
+
+## 1. Backup-Ziele festlegen
+- Schutz vor Datenverlust durch Hardware-Ausfälle, Ransomware oder menschliche Fehler
+- Schnelle Wiederherstellung mit minimalem Datenverlust
+- Einhaltung von Compliance-Vorgaben (z. B. DSGVO)
+
+## 2. Backup-Arten & Methoden
+- **Vollbackup** – komplette Sicherung aller Daten
+- **Differenzielles Backup** – speichert nur geänderte Daten seit dem letzten Vollbackup
+- **Inkrementelles Backup** – speichert nur Änderungen seit der letzten Sicherung
+
+### Empfohlene Kombination
+- Wöchentlich ein Vollbackup
+- Täglich ein inkrementelles Backup
+- Stündliche Replikation wichtiger Daten (optional)
+
+## 3. Backup-Speicherorte
+- **Lokal:** Externe Festplatten, NAS, RAID-Systeme
+- **Extern:** Cloud-Speicher (OneDrive, Azure Backup, Drittanbieter)
+- **Air-Gapped:** Physisch getrennte Backup-Medien zur Ransomware-Prävention
+
+## 4. Automatisierung mit Windows-Bordmitteln
+
+### Windows Server Backup (WSB)
+#### Installation:
+```powershell
+Install-WindowsFeature -Name Windows-Server-Backup -IncludeManagementTools
+```
+
+#### Backup einrichten:
+1. **Server-Manager** → **Tools** → **Windows Server-Sicherung**
+2. Sicherungszeitplan erstellen
+3. Zielort (Netzwerk oder externes Laufwerk) auswählen
+
+### Robocopy (Manuelle Datei-Sicherung)
+```powershell
+Robocopy C:\WichtigeDaten D:\Backup /MIR /R:3 /W:5 /LOG:D:\backup.log
+```
+
+### PowerShell Backup-Skript
+Automatisiertes Backup mit PowerShell:
+```powershell
+$BackupPath = "D:\Backups"
+$SourcePath = "C:\WichtigeDaten"
+$TimeStamp = Get-Date -Format "yyyy-MM-dd_HH-mm"
+$Dest = "$BackupPath\Backup_$TimeStamp"
+New-Item -ItemType Directory -Path $Dest
+Robocopy $SourcePath $Dest /MIR
